@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from './Services/rest.service';
 import { Employee } from './Emoloyee';
+import { Student } from './Student/student';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,12 @@ import { Employee } from './Emoloyee';
 })
 export class AppComponent implements OnInit {
   title = 'Job Matching';
-
   constructor(private rs : RestService){}
   headers = ["id","empName", "Age",  "Description"]
 
   employee : Employee[] = [];
-
+  
+  studentModel = new Student("example@gmail.com", "alemu", "miki", "kebede");
   ngOnInit()
   {
       this.rs.readEmployee()

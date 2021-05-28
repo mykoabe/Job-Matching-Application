@@ -1,37 +1,77 @@
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-6">
+    <form #userForm="ngForm">
+      <fieldset>
+        <legend class="student_register">Sign up with google</legend>
+        <hr />
+        <legend class="student_register">or</legend>
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group mb-3">
+            <input type="text" id="email" name="Email" class="form-control" ngModel/>
+          </div> 
+        </div>
+        <div class="form-group">
+          <label for="basic-url" class="form-label">Password</label>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              name="Password"
+              ngModel
+            />
+          </div>
+        </div>
 
-
-        <form action="">
-        <fieldset>
-        <legend class="student_register"> Sign up with google </legend>
-        <hr>
-        <legend class="student_register"> or</legend>
-            <label for="email" class="form-label">Email</label>
-            <div class="input-group mb-3">
-              <input type="text" id="email" class="form-control" placeholder="example@gmail.com" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-              <label for="basic-url" class="form-label">Password</label>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="basic-url" class="form-label">First Name</label>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Must be at least 8 characters" id="basic-url" aria-describedby="basic-addon3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name = "First Name"
+                  ngModel
+                />
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="basic-url" class="form-label">First Name</label>
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Elen " aria-label="First Name">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="basic-url" class="form-label">Last Name</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="miko" aria-label="First Name">
-                    </div>
-                  </div>
-                </div>
-                <p>By signing up, you agree to our <a class="terms_conditions" href="#">Terms and Conditions.</a></p>
-                <input class="btn btn-primary btn-lg btn-block" value="submit" type="button" name="Submit" id="submit_btn">
-                <h5 class="text-center mt-4">Already Registered? <a data-toggle="modal" data-target="#LoginModal" href="#" class="register">Login</a></h5>
-          </fieldset>
-          </form>
-      </div>
-    </div>
+            </div>
+            <div class="col-md-6">
+              <label for="basic-url" class="form-label">Last Name</label>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name = "Last Name"
+                  ngModel
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>
+          By signing up, you agree to our
+          <a class="terms_conditions" href="#">Terms and Conditions.</a>
+        </p>
+        <input
+          class="btn btn-primary btn-lg btn-block"
+          value="submit"
+          type="button"
+          name="Submit"
+          id="submit_btn"
+        />
+        <h5 class="text-center mt-4">
+          Already Registered?
+          <a
+            data-toggle="modal"
+            data-target="#LoginModal"
+            href="#"
+            class="register"
+            >Login</a
+          >
+        </h5>
+      </fieldset>
+    </form>
+  </div>
 </div>
