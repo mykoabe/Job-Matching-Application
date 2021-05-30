@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {  FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { JobsComponent } from './jobs/jobs.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    JobsComponent
   ],
   imports: [
     BrowserModule,

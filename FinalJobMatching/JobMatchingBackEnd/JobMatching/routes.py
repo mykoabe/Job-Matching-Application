@@ -1,12 +1,7 @@
-from flask import Flask, jsonify;
-from flask_cors import CORS;
-# from flask_restful import Resource, Api;
-
-
-app = Flask(__name__)
-# api=Api(app)
-CORS(app)
-
+import os
+from flask import render_template, url_for, flash, redirect, request, jsonify
+from JobMatching import app, db
+from JobMatching.model import User
 works = {
     "data": [
     {
@@ -42,7 +37,6 @@ works = {
     ]
 }
 
-
 @app.route("/", methods=['GET'])
 def index():
     return "Welcome to Jobs"
@@ -51,6 +45,3 @@ def index():
 def worksReport():
     global works
     return jsonify([works])
-
-if __name__ == '__main__':
-    app.run(debug=True)
