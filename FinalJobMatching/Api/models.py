@@ -1,22 +1,22 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy() 
+db = SQLAlchemy()
 
 class Employee(db.Model):
     __tablename__='employees'
     employeeId = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    name = db.Column(db.String,nullable=False)
+    username = db.Column(db.String,nullable=False)
     email = db.Column(db.String)
-    address = db.Column(db.String,nullable=False)
+    password = db.Column(db.String,nullable=False)
 
 class Employer(db.Model):
     __tablename__ = 'employers'
     employerId = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    name = db.Column(db.String,nullable=False)
+    username = db.Column(db.String,nullable=False)
     email = db.Column(db.String)
-    company = db.Column(db.String,nullable=False)
+    password = db.Column(db.String,nullable=False)
     address = db.Column(db.String,nullable=False)
-    # jobs_posted = db.relationship("Job",backref="employer",Lazy=True) 
+    # jobs_posted = db.relationship("Job",backref="employer",Lazy=True)
 
 class Job(db.Model):
     __tablename__="jobs"
@@ -25,5 +25,5 @@ class Job(db.Model):
     description = db.Column(db.String,nullable=False)
     posted_date=db.Column(db.String,nullable=False)
     posted_by = db.Column(db.Integer,db.ForeignKey("employers.employerId"),nullable=False)
-    
+
 

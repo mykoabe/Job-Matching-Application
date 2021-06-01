@@ -1,30 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { RestService } from '../Services/rest.service';
-import { Works } from '../works';
-
+import { JobService } from '../JobService/job.service';
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.css']
 })
 export class JobsComponent implements OnInit {
-
-  constructor(private rs: RestService) { }
-  headers = ["id", "jobtype", "availability", "status"]
-  work : Works[] = [];
-
+  jobs = [];
+  constructor(private _jobservice: JobService) { }
   ngOnInit(): void {
-    this.rs.readWorks()
+    this._jobservice.getJobs()
     .subscribe
       (
-        (response) =>
-        {
-          this.work = response[0]["data"];
-        },
-        (error) =>
-        {
-          console.log("No Data Found" + error);
-        }
+        res=>this.jobs = res, 
+        err=>console.log(err)
       )
   }
 

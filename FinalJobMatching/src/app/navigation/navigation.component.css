@@ -1,9 +1,9 @@
 .companyName{
   font-size: 150%;
 }
-.mat-toolbar{
+/* .mat-toolbar{
 height: 7vh;
-}
+} */
 div {
   overflow: inherit;
 }
@@ -36,4 +36,3 @@ button{
     font-size: 200%;
     text-align: center;
 }
-

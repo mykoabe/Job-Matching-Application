@@ -1,60 +1,64 @@
-from flask import Flask,request
+from flask import Flask,render_template, url_for, flash, redirect, request, jsonify
 from flask_marshmallow import Marshmallow
 from flask_restplus import Resource,Api,fields
+from dotenv import load_dotenv
 from settings import *
 from models import *
 from marsh import *
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
-
-
+app.config['JWT_SECRET_KEY'] = "What is the best secure password"
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 db.init_app(app) # initialize
 
 marsh = Marshmallow(app)
+
 
 job_schema = JobSchema()
 
 jobs_schema = JobSchema(many=True)
 
 employee_schema = EmployeeSchema()
-employees_schema = EmployeeSchema(many=True) 
+employees_schema = EmployeeSchema(many=True)
 employer_schema = EmployerSchema()
 employers_schema = EmployerSchema(many=True)
 #fields for models for swagger used for documentation only
 api = Api(app,version="1",title="Job matching Database",description="This is Job matching database")
+jwt = JWTManager(app)
 #for job model
 job = api.model("Job", {
     'name':fields.String(),
     'description':fields.String(),
     'posted_date':fields.DateTime,
     'posted_by':fields.Integer()
-    
+
 })
 #for employee model
 
 employee = api.model("Employee",{
-    'name':fields.String("Employee name"),
+    'username':fields.String("Employee name"),
     'email':fields.String("Email"),
-    'address':fields.String("Address")
-
+    'password':fields.String("password")
 })
 #for employer model
 
 employer = api.model("Employer",{
-    'name':fields.String("Employee name"),
+    'username':fields.String("Employee name"),
     'email':fields.String("Email"),
-    'company':fields.String("Company"),
-    'address':fields.String("Address")
-
+    'password':fields.String("password"),
+    'address':fields.String("address")
 })
+
 #crud operations for jobs start
 @api.route("/api/jobs",methods=["GET","POST"])
 class JobResource(Resource):
     def get(self):
         """This request returns all jobs"""
-        jobs = Job.query.all()  
+        jobs = Job.query.all()
         return jobs_schema.dump(jobs)
     @api.expect(job)
     @api.response(201,"Successfuly created new job!")
@@ -74,7 +78,7 @@ class JobResource(Resource):
 class JobResource(Resource):
     def get(self, id):
         '''
-        This request return single job 
+        This request return single job
         '''
         job = Job.query.filter_by(jobId=id).first()
         return job_schema.dump(job)
@@ -121,13 +125,34 @@ class EmployeeResource(Resource):
     def post(self):
         """This request creates new employee"""
         employee = Employee()
-        employee.name = request.json['name']
+        employee.username = request.json['username']
         employee.email = request.json['email']
-        employee.address = request.json['address']
+        employee.password = request.json['password']
         db.session.add(employee)
         db.session.commit()
-        return employee_schema.dump(employee),201 
-
+        return employee_schema.dump(employee),201
+      
+#crud operations for employee start
+@api.route("/api/login")
+class EmployeeResource(Resource):
+    def get(self):
+        "This request prints all employees"
+        employee = Employee.query.all()
+        return employees_schema.dump(employee)
+    @api.expect(employee)
+    @api.response(201,"Successfuly created new logedin!")
+    def post(self):
+        """This request creates new employee"""
+        employee = Employee()
+        email = request.json['email']
+        password = request.json['password']
+        test=Employee.query.filter_by(email=email).first()
+        if test:
+          access_token = create_access_token(identity=email)
+          return jsonify(access_token=access_token)
+        else:
+          return jsonify("Wrong email or password"), 401
+        
 @api.route("/api/employees/<int:id>")
 class EmployeeResource(Resource):
     def get(self,id):
@@ -139,9 +164,9 @@ class EmployeeResource(Resource):
     def put(self,id):
         "updates employee details"
         employee = Employee.query.filter_by(employeeId=id)
-        employee.name = request.json['name']
+        employee.username = request.json['username']
         employee.email = request.json['email']
-        employee.address = request.json['address']
+        employee.password = request.json['password']
         db.session.add(employee)
         db.session.commit()
         return employee_schema.dump(employee)
@@ -171,13 +196,13 @@ class EmployerResource(Resource):
     def post(self):
         """This request creates new employer"""
         employer = Employer()
-        employer.name = request.json['name']
+        employer.username = request.json['username']
         employer.email = request.json['email']
-        employer.company = request.json['company']
+        employer.password = request.json['password']
         employer.address = request.json['address']
         db.session.add(employer)
         db.session.commit()
-        return employee_schema.dump(employer),201 
+        return employee_schema.dump(employer),201
 
 @api.route("/api/employers/<int:id>")
 class EmployerResource(Resource):
@@ -198,7 +223,7 @@ class EmployerResource(Resource):
         db.session.commit()
         return employee_schema.dump(employer)
     def delete(self,id):
-        "deletes particular employer" 
+        "deletes particular employer"
         employer = Employer.query.filter_by(employerId=id).first()
         if employer is None:
             return "employer is not found",404
@@ -207,7 +232,7 @@ class EmployerResource(Resource):
         return "Employer  successfully deleted.",204
 #crud operations for employer end
 
-#search for jobs 
+#search for jobs
 @api.route("/api/jobs/<string:jobstring>")
 class JobsResource(Resource):
     def get(self,jobstring):
@@ -216,7 +241,8 @@ class JobsResource(Resource):
         return jobs_schema.dump(job),200
 
 
-    
 
-        
+
+
+
 

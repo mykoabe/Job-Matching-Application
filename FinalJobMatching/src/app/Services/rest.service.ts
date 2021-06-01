@@ -18,5 +18,5 @@ export class RestService implements OnInit {
   {
     return this.http.get<[Works]>(this._workUrl);
   }
-  
+
 }
