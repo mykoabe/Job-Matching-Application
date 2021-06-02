@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../AuthService/auth.service';
 
 @Component({
   selector: 'app-employee-login',
@@ -7,13 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeeLoginComponent implements OnInit {
   loginEmployeeData = {email: '', password: ''}
-
-  constructor() { }
-
+  constructor(private _auth: AuthService,
+              private _router: Router ) { }
   ngOnInit(): void {
   }
   loginEmployee(){
-    console.log(this.loginEmployeeData)
+    this._auth.loginEmployee(this.loginEmployeeData)
+    .subscribe(
+      res=> {
+        console.log(res)
+        localStorage.setItem('token', res.access_token)
+        this._router.navigate(["/jobs"])
+      },
+      err=>console.log(err)
+      )
   }
-
+  
 }

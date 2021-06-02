@@ -6,11 +6,13 @@ from settings import *
 from models import *
 from marsh import *
 from flask_cors import CORS
+# this is for the login form
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+# this is for the login form key
 app.config['JWT_SECRET_KEY'] = "What is the best secure password"
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 db.init_app(app) # initialize
@@ -125,15 +127,20 @@ class EmployeeResource(Resource):
     def post(self):
         """This request creates new employee"""
         employee = Employee()
-        employee.username = request.json['username']
-        employee.email = request.json['email']
-        employee.password = request.json['password']
-        db.session.add(employee)
-        db.session.commit()
-        return employee_schema.dump(employee),201
-      
+        email = request.json['email']
+        test=Employee.query.filter_by(email=email).first()
+        if test:
+            return None, 404
+        else: 
+            employee.username = request.json['username']
+            employee.email = request.json['email']
+            employee.password = request.json['password']
+            db.session.add(employee)
+            db.session.commit()
+            return employee_schema.dump(employee),201
+
 #crud operations for employee start
-@api.route("/api/login")
+@api.route("/api/loginEmployee")
 class EmployeeResource(Resource):
     def get(self):
         "This request prints all employees"
@@ -144,15 +151,43 @@ class EmployeeResource(Resource):
     def post(self):
         """This request creates new employee"""
         employee = Employee()
-        email = request.json['email']
-        password = request.json['password']
-        test=Employee.query.filter_by(email=email).first()
-        if test:
-          access_token = create_access_token(identity=email)
-          return jsonify(access_token=access_token)
+        if request.is_json:
+            email = request.json['email']
+            password = request.json['password']
         else:
-          return jsonify("Wrong email or password"), 401
+            email = request.form['email']
+            password = request.form['password']
+        test=Employee.query.filter_by(email=email, password=password).first()
+        if test:
+            access_token = create_access_token(identity=email)
+            return jsonify(message="login successful", access_token=access_token)
+        else:
+            return jsonify("Wrong email or password"), 401 
         
+#crud operations for employee start
+@api.route("/api/loginEmployer")
+class EmployeeResource(Resource):
+    def get(self):
+        # this is the redirection to after the employee is logedin
+        employee = Employee.query.all()
+        return employees_schema.dump(employee)
+    @api.expect(employee)
+    @api.response(201,"Successfuly created new logedin!")
+    def post(self):
+        # this is for submiting the form to check the tokens
+        employee = Employee()
+        if request.is_json:
+            email = request.json['email']
+            password = request.json['password']
+        else:
+            email = request.form['email']
+            password = request.form['password']
+        test=Employer.query.filter_by(email=email, password=password).first()
+        if test:
+            access_token = create_access_token(identity=email)
+            return jsonify(message="login successful", access_token=access_token)
+        else:
+            return jsonify("Wrong email or password"), 401 
 @api.route("/api/employees/<int:id>")
 class EmployeeResource(Resource):
     def get(self,id):
@@ -196,14 +231,18 @@ class EmployerResource(Resource):
     def post(self):
         """This request creates new employer"""
         employer = Employer()
-        employer.username = request.json['username']
-        employer.email = request.json['email']
-        employer.password = request.json['password']
-        employer.address = request.json['address']
-        db.session.add(employer)
-        db.session.commit()
-        return employee_schema.dump(employer),201
-
+        email = request.json['email']
+        test=Employer.query.filter_by(email=email).first()
+        if test:
+            return None, 404
+        else:
+            employer.username = request.json['username']
+            employer.email = request.json['email']
+            employer.password = request.json['password']
+            employer.address = request.json['address']
+            db.session.add(employer)
+            db.session.commit()
+            return employee_schema.dump(employer),201
 @api.route("/api/employers/<int:id>")
 class EmployerResource(Resource):
     def get(self,id):

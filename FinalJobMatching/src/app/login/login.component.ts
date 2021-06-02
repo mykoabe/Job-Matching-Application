@@ -14,9 +14,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   loginUser(){
-    this._auth.registerEmployee(this.loginUserData)
+    this._auth.loginEmployee(this.loginUserData)
     .subscribe(
-      res=>console.log(res),
+      res=> {
+        console.log(res)
+        localStorage.setItem('token', res.access_token)
+      },
       err=>console.log(err)
       )
   }

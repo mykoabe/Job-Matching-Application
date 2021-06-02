@@ -9,13 +9,15 @@ import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {  FormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JobsComponent } from './jobs/jobs.component';
 import { AuthService } from './AuthService/auth.service';
 import { JobService } from './JobService/job.service'
 import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 import { HomeComponent } from './home/home.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { AuthGuard } from './AuthGuard/auth.guard';
+import { TokenInterceptorService } from './TokenInterceptor/token-interceptor.service';
 
 
 
@@ -39,7 +41,12 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService, JobService],
+  providers: [AuthService, AuthGuard, JobService, 
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
