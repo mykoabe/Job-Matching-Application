@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
+
 export class JobService {
   private _jobsUrl = "http://localhost:5000/api/jobs"
 

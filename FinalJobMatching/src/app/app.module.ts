@@ -18,8 +18,8 @@ import { HomeComponent } from './home/home.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { AuthGuard } from './AuthGuard/auth.guard';
 import { TokenInterceptorService } from './TokenInterceptor/token-interceptor.service';
-
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { EmployeeDataComponent } from './employee-data/employee-data.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,8 @@ import { TokenInterceptorService } from './TokenInterceptor/token-interceptor.se
     JobsComponent,
     EmployeeLoginComponent,
     HomeComponent,
-    SideNavComponent
+    SideNavComponent,
+    EmployeeDataComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +40,8 @@ import { TokenInterceptorService } from './TokenInterceptor/token-interceptor.se
     MatSliderModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule
   ],
   providers: [AuthService, AuthGuard, JobService, 
   {

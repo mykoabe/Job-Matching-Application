@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RestService } from './Services/rest.service';
-import { Works } from './works';
+import { AuthService } from './AuthService/auth.service';
+import { MediaChange, MediaObserver } from '@angular/flex-layout'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -9,28 +10,11 @@ import { Works } from './works';
 })
 export class AppComponent {
 
-  title = 'FinalJobMatching';
   
-  constructor(private rs : RestService){}
-
-  headers = ["id","jobtype", "availability",  "status"]
-
-  work : Works[] = [];
+  
+  constructor(private _auth: AuthService){}
 
   ngOnInit()
-  {
-      this.rs.readWorks()
-      .subscribe
-        (
-          (response) => 
-          {
-            this.work = response[0]["data"];
-          },
-          (error) =>
-          {
-            console.log("No Data Found" + error);
-          }
+  {  }
 
-        )
-  }
 }

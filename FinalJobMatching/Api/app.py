@@ -1,7 +1,7 @@
 from flask import Flask,render_template, url_for, flash, redirect, request, jsonify
 from flask_marshmallow import Marshmallow
 from flask_restplus import Resource,Api,fields
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from settings import *
 from models import *
 from marsh import *
@@ -57,6 +57,7 @@ employer = api.model("Employer",{
 
 #crud operations for jobs start
 @api.route("/api/jobs",methods=["GET","POST"])
+# @jwt_required()
 class JobResource(Resource):
     def get(self):
         """This request returns all jobs"""
@@ -162,7 +163,7 @@ class EmployeeResource(Resource):
             access_token = create_access_token(identity=email)
             return jsonify(message="login successful", access_token=access_token)
         else:
-            return jsonify("Wrong email or password"), 401 
+            return "Wrong email or password", 401 
         
 #crud operations for employee start
 @api.route("/api/loginEmployer")
@@ -187,7 +188,7 @@ class EmployeeResource(Resource):
             access_token = create_access_token(identity=email)
             return jsonify(message="login successful", access_token=access_token)
         else:
-            return jsonify("Wrong email or password"), 401 
+            return "Wrong email or password", 401 
 @api.route("/api/employees/<int:id>")
 class EmployeeResource(Resource):
     def get(self,id):
