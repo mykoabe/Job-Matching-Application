@@ -20,6 +20,8 @@ import { AuthGuard } from './AuthGuard/auth.guard';
 import { TokenInterceptorService } from './TokenInterceptor/token-interceptor.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { EmployeeDataComponent } from './employee-data/employee-data.component';
+import { AddJobComponent } from './add-job/add-job.component';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { EmployeeDataComponent } from './employee-data/employee-data.component';
     EmployeeLoginComponent,
     HomeComponent,
     SideNavComponent,
-    EmployeeDataComponent
+    EmployeeDataComponent,
+    AddJobComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { EmployeeDataComponent } from './employee-data/employee-data.component';
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCarouselModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, JobService, 
   {

@@ -16,5 +16,7 @@ export class JobsComponent implements OnInit {
         err=>console.log(err)
       )
   }
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
+  slidess = [{'image': 'https://gsr.dev/material2-carousel/assets/demo.png'}, {'image': 'https://gsr.dev/material2-carousel/assets/demo.png'},{'image': 'https://gsr.dev/material2-carousel/assets/demo.png'}, {'image': 'https://gsr.dev/material2-carousel/assets/demo.png'}, {'image': 'https://gsr.dev/material2-carousel/assets/demo.png'}];
 
 }

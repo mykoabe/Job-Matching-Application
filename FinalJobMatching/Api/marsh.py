@@ -5,7 +5,7 @@ marsh = Marshmallow()
 
 class JobSchema(marsh.Schema):
     class Meta:
-        fields=("name","description","posted_date","posted_by")
+        fields=("name","posted_date", "posted_by", "category", "location", "career_level", "employment_type", "job_requirements","description")
         model = Job
 
 class EmployeeSchema(marsh.Schema):

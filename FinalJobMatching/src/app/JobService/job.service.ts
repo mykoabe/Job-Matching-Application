@@ -13,4 +13,7 @@ export class JobService {
   getJobs(){
     return this.http.get<any>(this._jobsUrl)
   }
+  addJob(job){
+    return this.http.post<any>(this._jobsUrl, job)
+  }
 }

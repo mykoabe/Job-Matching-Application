@@ -4,6 +4,7 @@ from flask_restplus import Resource,Api,fields
 # from dotenv import load_dotenv
 from settings import *
 from models import *
+from datetime import date
 from marsh import *
 from flask_cors import CORS
 # this is for the login form
@@ -34,10 +35,14 @@ jwt = JWTManager(app)
 #for job model
 job = api.model("Job", {
     'name':fields.String(),
-    'description':fields.String(),
-    'posted_date':fields.DateTime,
-    'posted_by':fields.Integer()
-
+    'posted_date':fields.DateTime(),
+    'posted_by':fields.String(),
+    'category':fields.String(),
+    'location':fields.String(),
+    'career_level':fields.String(),
+    'employment_type':fields.String(),
+    'description':fields.String,
+    'job_requirements':fields.String(),
 })
 #for employee model
 
@@ -70,9 +75,14 @@ class JobResource(Resource):
         #create new job
         job = Job()
         job.name = request.json['name']
-        job.description = request.json['description']
-        job.posted_date = request.json['posted_date']
+        job.posted_date = date.today()
         job.posted_by = request.json['posted_by']
+        job.category = request.json['category']
+        job.location = request.json['location']
+        job.career_level = request.json['career_level']
+        job.employment_type = request.json['employment_type']
+        job.description = request.json['description']
+        job.job_requirements = request.json['job_requirements']
         db.session.add(job)
         db.session.commit()
         return job_schema.dump(job)

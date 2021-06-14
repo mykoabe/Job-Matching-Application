@@ -9,7 +9,7 @@ export class AuthService {
   private _registerUrlEmployer = "http://localhost:5000/api/employers"
   private _loginUrlEmployee = "http://localhost:5000/api/loginEmployee"
   private _loginUrlEmployer = "http://localhost:5000/api/loginEmployer"
-  private _returnEmployerUrl = "http://localhost:5000/api/employers/:id"
+ 
 
   constructor(private http: HttpClient) { }
 
@@ -33,8 +33,5 @@ export class AuthService {
   }
   getToken(){
     return localStorage.getItem("token")
-  }
-  getEmployers(){
-    return this.http.get<any>(this._returnEmployerUrl)
   }
 }

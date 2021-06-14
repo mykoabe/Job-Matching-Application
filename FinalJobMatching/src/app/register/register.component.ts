@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../AuthService/auth.service';
 
 
@@ -11,7 +12,8 @@ export class RegisterComponent implements OnInit {
 
   title = 'FinalJobMatching';
   
-  constructor(private _auth : AuthService){}
+  constructor(private _auth : AuthService, 
+              private _router: Router){}
 
   registerEmployeeData = {username: '', email: '', password: ''}
   registerEmployerData = {username: '', email: '', password: '', address: ''}
@@ -19,14 +21,20 @@ export class RegisterComponent implements OnInit {
   registerEmployee(){
     this._auth.registerEmployee(this.registerEmployeeData)
     .subscribe(
-      res=>console.log(res),
+      res=> {
+        console.log(res)
+        this._router.navigate(["/jobs"])
+      },
       err=>console.log(err)
       )
   }
   registerEmployer(){
     this._auth.registerEmployer(this.registerEmployerData)
     .subscribe(
-      res=>console.log(res),
+      res=> {
+        console.log(res)
+        this._router.navigate(["/home"])
+      },
       err=>console.log(err)
       )
   }

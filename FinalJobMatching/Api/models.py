@@ -22,8 +22,13 @@ class Job(db.Model):
     __tablename__="jobs"
     jobId = db.Column(db.Integer, primary_key=True,autoincrement=True)
     name = db.Column(db.String,nullable=False)
-    description = db.Column(db.String,nullable=False)
     posted_date=db.Column(db.String,nullable=False)
+    category=db.Column(db.String,nullable=False)
+    location = db.Column(db.String,nullable=False)
+    career_level=db.Column(db.String,nullable=False)
+    employment_type = db.Column(db.String,nullable=False)
+    description = db.Column(db.String,nullable=False)
+    job_requirements=db.Column(db.String,nullable=False)
     posted_by = db.Column(db.Integer,db.ForeignKey("employers.employerId"),nullable=False)
 
 

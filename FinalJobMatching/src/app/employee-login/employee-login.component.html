@@ -51,6 +51,10 @@
               Sign Up
             </a>
             </div>
+            <div *ngfor="let job of jobs">
+              <p>{{job.username}}</p>
+              <p>{{job.password}}</p>
+            </div>
           </form>
         </mat-card-content>
       </mat-tab>

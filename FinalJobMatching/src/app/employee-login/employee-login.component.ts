@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../AuthService/auth.service';
-import { JobService } from '../JobService/job.service';
+
 
 @Component({
   selector: 'app-employee-login',
@@ -11,17 +11,10 @@ import { JobService } from '../JobService/job.service';
 export class EmployeeLoginComponent implements OnInit {
   loginEmployeeData = {email: '', password: ''}
   loginEmployerData = {email: '', password: ''}
-  jobs = []
   constructor(private _auth: AuthService,
-              private _router: Router,
-              private _jobservice: JobService ) { }
+              private _router: Router
+              ) { }
   ngOnInit(): void {
-    this._auth.getEmployers()
-    .subscribe
-      (
-        res=>this.jobs = res, 
-        err=>console.log(err)
-      )
   }
             
   loginEmployee(){
@@ -41,7 +34,7 @@ export class EmployeeLoginComponent implements OnInit {
       res=> {
         console.log(res)
         localStorage.setItem('token', res.access_token)
-        // this._router.navigate(["/home"])
+        this._router.navigate(["/home"])
       },
       err=>console.log(err)
       )
